@@ -74,8 +74,8 @@ def Per_Info_8(request):
         form = UserPersonalForm(request.POST)    
         return render(request, '8_Per_Info.html', {'form':form})
     
-model = tensorflow.keras.models.load_model('C:/Users/nithi/Music/MAIN_PROJECT/CODE/DEPLOYMENT/PROJECT/APP/DISEASE.h5')
-dataset1 = "C:/Users/nithi/Music/MAIN_PROJECT/CODE/DEPLOYMENT/PROJECT/APP/SYMPTOMS.csv"
+model = tensorflow.keras.models.load_model('D:/Project/Kuppa/APP/DISEASE.h5')
+dataset1 = "D:/Project/Kuppa/APP/mod_dataset.csv"
 
 def Deploy_9(request): 
     if request.method == "POST":
@@ -94,13 +94,13 @@ def Deploy_9(request):
 
         df = pd.read_csv(dataset1)
 
-        df['text'] = df['text'].apply(lambda x: x.lower() if pd.notna(x) else "")
+        df['combined_symptoms'] = df['combined_symptoms'].apply(lambda x: x.lower() if pd.notna(x) else "")
 
         label_encoder = LabelEncoder()
         df['label'] = label_encoder.fit_transform(df['label'])
         num_classes = len(label_encoder.classes_)
 
-        X = df['text']
+        X = df['combined_symptoms']
         y = df['label']
 
         y = to_categorical(y, num_classes=num_classes)
