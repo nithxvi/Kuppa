@@ -74,8 +74,8 @@ def Per_Info_8(request):
         form = UserPersonalForm(request.POST)    
         return render(request, '8_Per_Info.html', {'form':form})
     
-model = tensorflow.keras.models.load_model('D:/Project/Kuppa/APP/DISEASE.h5')
-dataset1 = "D:/Project/Kuppa/APP/mod_dataset.csv"
+model = tensorflow.keras.models.load_model('APP\DISEASE.h5')
+dataset1 = "APP\mod_dataset.csv"
 
 def Deploy_9(request): 
     if request.method == "POST":
