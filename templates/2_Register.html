@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
-    <title>Document</title>
+    <title>Register</title>
 <style>
           body {
           font-family: 'Open Sans';
@@ -107,7 +107,7 @@
     <div class="tot">
     <h1>Registration</h1>
     <div class="container">
-        <form method = "Post">
+        <form method = "Post" id="credentialForm">
         {% csrf_token %}
                     
 
@@ -121,30 +121,62 @@
                     <div class="login__field">
                         <fieldset>
                         <legend>Email</legend>
-                        <input type="email" name="email" required/>
+                        <input type="email" name="email" id="email"required/>
                     </div>
                     <br>
 
                     <div class="login__field">
                         <fieldset>
                         <legend>Password</legend>
-                        <input type="password" name="password1" required/>
+                        <input type="password" name="password1" id="password1" required/>
                     </div><br>
 
                     <div class="login__field">
                         <fieldset>
                         <legend>Confirm Password</legend>
-                        <input type="password" name="password2" required/>
+                        <input type="password" name="password2" id="password2" required/>
                     </div><br>
 
 
                     <button type="submit" class="submit">Register</button>
                             <h2 style="color:#f6f0e9;">Already Have an Account?</h2>
-                            <button type="submit" class="submit"><a href="{% url 'Login_3' %}" style="color:white;">Log In</a></button><br>
+                            <button ><a href="{% url 'Login_3' %}" style="color:white;">Log In</a></button><br>
             </form>  
 
 </div>
 </div>
+<script>
+document.getElementById('credentialForm').addEventListener('submit', function (event) {
+    // event.preventDefault(); // Prevent the form from submitting
+
+    const email = document.getElementById('email').value;
+    const password1 = document.getElementById('password1').value;
+    const password2 = document.getElementById('password2').value;
+
+
+    if (password1.value !== password2.value) {
+        alert('Passwords do not match.');
+        return;
+    }
+    // Email validatione
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
+
+    // Password validation
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password1)) {
+        alert('Please enter a strong password. It should contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character.');
+        return;
+    }
+
+    // If both validations pass, you can proceed with form submission or further processing
+    alert('Credentials are valid!');
+    // this.submit();
+});
+    </script>
     
 </body>
 </html>
