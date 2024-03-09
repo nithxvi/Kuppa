@@ -4,21 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
     <title>Document</title>
 <style>
           body {
-
+          font-family: 'Open Sans';
+          color:#f6f0e9;
           display: flex;
           align-items: center;
           justify-content: center;
           height: 100vh;
-          background-image: url("/static/images/H1.jpg");
+          background-color: rgb(43, 45, 49);
           background-size: cover;
           font-family: 'arial', sans-serif;
           }
 
           h1 {
-          color: rgb(0, 0, 0);
+          color: #f6f0e9;
           }
 
           .container {
@@ -29,20 +31,18 @@
           margin: 10vh;
           align-items: center;
           text-align: center;
-          border-color: rgb(0, 0, 0);
           border-radius: 10px;
           box-shadow: 0 0 10px rgb(0, 0, 0);
-          background-color: rgba(255, 255, 255, 0.3);
+          background-color: rgb(49, 51, 56) ;
           background-size: cover;
           transition: all 0.2s ease;
           font-family: 'arial', sans-serif;
           }
 
-          .container:hover {
-          padding: 7vh;
-          background-color: rgba(255, 255, 255, 0.4);
-          box-shadow: 50px 50px 10px rgba(0, 0, 0, 0.9);
-          }
+          /* .container:hover {
+          padding: 6vh;
+          background-color: rgb(64, 66, 73);
+          } */
 
           input {
           width: 310px;
@@ -51,34 +51,31 @@
           text-align: left;
           align-items: center;
           box-sizing: border-box;
-          border: 3px solid #000000;
+          border: 3px solid #5d5d5d;
           border-radius: 10px;
           }
 
-          input:focus {
+          /* input:focus {
           border-color: rgb(0, 0, 0);
 
-          }
+          } */
 
           fieldset {
           width: 310px;
           padding: 10px;
           text-align: left;
           align-items: center;
-          border: 2px solid #000000;
+          border: 2px solid #5d5d5d;
           border-radius: 10px;
           }
 
-          ::placeholder {
-          color: black;
-          text-align: left;
-          }
-
+         
           button {
           width: 30%;
           height: 40px;
-          background-color: black;
+          background-color: rgb(99, 99, 99);
           color: rgb(255, 255, 255);
+          border:#5d5d5d;
           border-radius: 10px;
           border-style: double;
           cursor: pointer;
@@ -90,54 +87,64 @@
           button:hover {
           width: 32%;
           background-color: transparent;
-          color: black;
+          color: #c6c0c0;
 
           }
 
-          a {
+          .tot{
+            display: flex;
+            justify-content: center;
+            
+          }
+
+          /* a {
           color: rgb(0, 0, 0);
-          }
+          } */
 
 </style>
 </head>
 <body>
+    <div class="tot">
+    <h1>Registration</h1>
     <div class="container">
         <form method = "Post">
         {% csrf_token %}
-                    <h1>REGISTERATION</h1>
+                    
 
                     <div class="login__field">
                         <fieldset>
-                        <legend>USERNAME</legend>
-                        <input type="text" placeholder="USERNAME" name="username" required/>
+                        <legend>Username</legend>
+                        <input type="text" name="username" required/>
                     </div>
                     <br>
 
                     <div class="login__field">
                         <fieldset>
-                        <legend>EMAIL</legend>
-                        <input type="email" placeholder="EMAIL" name="email" required/>
+                        <legend>Email</legend>
+                        <input type="email" name="email" required/>
                     </div>
                     <br>
 
                     <div class="login__field">
                         <fieldset>
-                        <legend>PASSWORD</legend>
-                        <input type="password" placeholder="PASSWORD" name="password1" required/>
+                        <legend>Password</legend>
+                        <input type="password" name="password1" required/>
                     </div><br>
 
                     <div class="login__field">
                         <fieldset>
-                        <legend>CONFIRM_PASSWORD</legend>
-                        <input type="password" placeholder="CONFIRM_PASSWORD" name="password2" required/>
+                        <legend>Confirm Password</legend>
+                        <input type="password" name="password2" required/>
                     </div><br>
 
 
-                    <button type="submit" class="submit">REGISTER</button><br><br><br>
-                            <h2 style="color:black;">Already Have an Account?</h2>
-                            <button type="submit" class="submit"><a href="{% url 'Login_3' %}" style="color:white;">LOG IN</a></button><br>
+                    <button type="submit" class="submit">Register</button>
+                            <h2 style="color:#f6f0e9;">Already Have an Account?</h2>
+                            <button type="submit" class="submit"><a href="{% url 'Login_3' %}" style="color:white;">Log In</a></button><br>
             </form>  
 
+</div>
+</div>
     
 </body>
 </html>
