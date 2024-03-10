@@ -71,7 +71,7 @@ def Per_Info_8(request):
         return render(request, '4_Home.html', {'form':form})
     else:
         print('Else working')
-        form = UserPersonalForm(request.POST)    
+        form = UserPersonalForm(request.POST)
         return render(request, '8_Per_Info.html', {'form':form})
     
 model = tensorflow.keras.models.load_model('APP\DISEASE.h5')
