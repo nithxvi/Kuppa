@@ -74,8 +74,9 @@ def Per_Info_8(request):
         form = UserPersonalForm(request.POST)
         return render(request, '8_Per_Info.html', {'form':form})
     
-model = tensorflow.keras.models.load_model('APP\DISEASE.h5')
+model = tensorflow.keras.models.load_model('APP\LSTM.h5')
 dataset1 = "APP\mod_dataset.csv"
+dataset2="APP\symptom_precaution.csv"
 
 def Deploy_9(request): 
     if request.method == "POST":
@@ -93,6 +94,7 @@ def Deploy_9(request):
         preprocessed_text = result.lower()
 
         df = pd.read_csv(dataset1)
+        df_prec= pd.read_csv(dataset2)
 
         df['combined_symptoms'] = df['combined_symptoms'].apply(lambda x: x.lower() if pd.notna(x) else "")
 
@@ -119,10 +121,18 @@ def Deploy_9(request):
         predicted_class = np.argmax(predicted_probabilities, axis=1)[0]
         output_label = label_encoder.inverse_transform([predicted_class])[0]
 
+        res_precaution=df_prec.loc[df_prec['Disease']==output_label]
+        precautions = res_precaution[['Precaution_1', 'Precaution_2', 'Precaution_3', 'Precaution_4']]
+        precautions.dropna()
+        disease_list=precautions.values.tolist()
+        disease_list_str = list(map(str, disease_list))
+        disease_precaution=','.join(disease_list_str)
+
+        print(disease_precaution)
 
         print("Predicted Label:", output_label)
         
-        return render(request, '9_Deploy.html', {"prediction_text":f"THE {output_label} DISEASE MIGHT BE OCCUR IN THIS CONDITIONS"})
+        return render(request, '9_Deploy.html', {"prediction_text":f"THE {output_label} DISEASE MIGHT BE OCCUR IN THIS CONDITIONS","disease_precaution":disease_precaution})
     else:
         return render (request, '9_Deploy.html')
    
