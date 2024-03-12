@@ -1,5 +1,5 @@
 document.getElementById('credentialForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent the form from submitting
+    // yyevent.preventDefault(); // Prevent the form from submitting
 
     const email = document.getElementById('email').value;
     const password1 = document.getElementById('password1').value;
