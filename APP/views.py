@@ -95,6 +95,7 @@ def Deploy_9(request):
 
         df = pd.read_csv(dataset1)
         df_prec= pd.read_csv(dataset2)
+        df_prec.fillna("",inplace=True)
 
         df['combined_symptoms'] = df['combined_symptoms'].apply(lambda x: x.lower() if pd.notna(x) else "")
 
@@ -124,10 +125,7 @@ def Deploy_9(request):
         res_precaution=df_prec.loc[df_prec['Disease']==output_label]
         precautions = res_precaution[['Precaution_1', 'Precaution_2', 'Precaution_3', 'Precaution_4']]
         precautions.dropna()
-        disease_list=precautions.values.tolist()
-        disease_list_str = list(map(str, disease_list))
-        disease_precaution=','.join(disease_list_str)
-
+        disease_precaution=precautions.values.flatten().tolist()
         print(disease_precaution)
 
         print("Predicted Label:", output_label)
