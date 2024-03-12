@@ -77,6 +77,7 @@ def Per_Info_8(request):
 model = tensorflow.keras.models.load_model('APP\LSTM.h5')
 dataset1 = "APP\mod_dataset.csv"
 dataset2="APP\symptom_precaution.csv"
+dataset3="APP\symptom_Description.csv"
 
 def Deploy_9(request): 
     if request.method == "POST":
@@ -96,6 +97,7 @@ def Deploy_9(request):
         df = pd.read_csv(dataset1)
         df_prec= pd.read_csv(dataset2)
         df_prec.fillna("",inplace=True)
+        df_desc= pd.read_csv(dataset3)
 
         df['combined_symptoms'] = df['combined_symptoms'].apply(lambda x: x.lower() if pd.notna(x) else "")
 
@@ -128,9 +130,14 @@ def Deploy_9(request):
         disease_precaution=precautions.values.flatten().tolist()
         print(disease_precaution)
 
+        res_disease_description = df_desc.loc[df_desc['Disease']==output_label]
+        description = res_disease_description[['Description']]
+        disease_description=description.values.flatten().tolist()[0]
+
+
         print("Predicted Label:", output_label)
         
-        return render(request, '9_Deploy.html', {"prediction_text":f"THE {output_label} DISEASE MIGHT BE OCCUR IN THIS CONDITIONS","disease_precaution":disease_precaution})
+        return render(request, '9_Deploy.html', {"prediction_text":f"THE {output_label} DISEASE MIGHT BE OCCUR IN THIS CONDITIONS","disease_precaution":disease_precaution, "disease_description":disease_description})
     else:
         return render (request, '9_Deploy.html')
    
