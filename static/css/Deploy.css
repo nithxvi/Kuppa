@@ -61,10 +61,15 @@ h2{
 
 textarea{
   resize: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 10px;
   width: 78%; 
   padding: 10px;
   margin-top: 2%;
+  color: #8e8f91;
+  background: transparent;
+  /* border: none; */
+  outline: none;
 }
 
 main{
@@ -79,14 +84,9 @@ margin: 2%;
 }
 
 ::placeholder{
-color: black;
+color: #8e8f91;
 }
-textarea{
-color: black;
-background: grey;
-/* border: none; */
-outline: none;
-}
+
 
 .prediction_disease{
 font-size: 20px;

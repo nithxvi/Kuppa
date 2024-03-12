@@ -5,7 +5,7 @@ for (let i = 0; i < diseasePrecaution.length; i++) {
         console.log(diseasePrecaution[i])
         const res = document.createElement("p")
         const img = document.createElement("img");
-        img.src = "/static/images/bullet.png";
+        img.src = "/static/images/bullet-grey.png";
         img.style.width = "20px"
         res.appendChild(img)
         res.appendChild(document.createTextNode(diseasePrecaution[i]))
