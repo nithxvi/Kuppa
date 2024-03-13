@@ -137,7 +137,8 @@ def Deploy_9(request):
 
         print("Predicted Label:", output_label)
         
-        return render(request, '9_Deploy.html', {"prediction_text":f"The Disease you might have under such conditions is {output_label}","disease_precaution":disease_precaution, "disease_description":disease_description})
+        return render(request, '9_Deploy.html', {"prediction_text":f"The Disease you might have under such conditions is {output_label}",
+                                                 "disease_precaution":disease_precaution, "disease_description":disease_description})
     else:
         return render (request, '9_Deploy.html')
    
