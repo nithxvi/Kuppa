@@ -76,7 +76,7 @@ def Per_Info_8(request):
         form = UserPersonalForm(request.POST)
         return render(request, '8_Per_Info.html', {'form':form})
     
-model = tensorflow.keras.models.load_model('APP\LSTM.h5')
+# model = tensorflow.keras.models.load_model('APP\LSTM.h5')
 dataset1 = "APP\mod_dataset.csv"
 dataset2="APP\symptom_precaution.csv"
 dataset3="APP\symptom_Description.csv"
@@ -87,14 +87,14 @@ def Deploy_9(request):
         input_text2 = int_features[1:]
         print(input_text2)
 
-        if isinstance(input_text2[0], str):
-            result = input_text2[0]
-        else:
-            result = None
+        # if isinstance(input_text2[0], str):
+        #     result = input_text2[0]
+        # else:
+        #     result = None
 
-        print(result)
+        # print(result)
 
-        preprocessed_text = result.lower()
+        # preprocessed_text = result.lower()
 
         df = pd.read_csv(dataset1)
         df_prec= pd.read_csv(dataset2)
@@ -103,28 +103,57 @@ def Deploy_9(request):
 
         df['combined_symptoms'] = df['combined_symptoms'].apply(lambda x: x.lower() if pd.notna(x) else "")
 
-        label_encoder = LabelEncoder()
-        df['label'] = label_encoder.fit_transform(df['label'])
-        num_classes = len(label_encoder.classes_)
+        ##The BERT WAY
+        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        
 
-        X = df['combined_symptoms']
-        y = df['label']
+        unique_labels = df['label'].unique()
+        sorted_unique_labels = sorted(unique_labels)
 
-        y = to_categorical(y, num_classes=num_classes)
+        # Create a mapping dictionary
+        label_mapping = {label: idx for idx, label in enumerate(sorted_unique_labels)}
+        print(label_mapping)
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+        # Reverse the mapping for prediction
+        reverse_label_mapping = {idx: label for label, idx in label_mapping.items()}
+        reverse_label_mapping
+        
+        inputs = tokenizer(input_text2, return_tensors="pt", truncation=True, padding=True)
+        model = BertForSequenceClassification.from_pretrained('APP\Result checkpoint 1500')
 
-        max_words = 10000  
-        max_sequence_length = 100 
-        tokenizer = Tokenizer(num_words=max_words)
-        tokenizer.fit_on_texts(X_train)
+        outputs=model(**inputs)
 
-        input_sequence = tokenizer.texts_to_sequences([preprocessed_text])
-        input_padded = pad_sequences(input_sequence, maxlen=max_sequence_length)
+        predicted_class_idx = torch.argmax(outputs.logits, dim=1).item()
 
-        predicted_probabilities = model.predict(input_padded)
-        predicted_class = np.argmax(predicted_probabilities, axis=1)[0]
-        output_label = label_encoder.inverse_transform([predicted_class])[0]
+        output_label = reverse_label_mapping[predicted_class_idx]
+
+        
+        
+        
+        ## The BOOB Alan WAY
+        # label_encoder = LabelEncoder()
+        # df['label'] = label_encoder.fit_transform(df['label'])
+        # num_classes = len(label_encoder.classes_)
+
+        # X = df['combined_symptoms']
+        # y = df['label']
+
+        # y = to_categorical(y, num_classes=num_classes)
+
+        # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+        # max_words = 10000  
+        # max_sequence_length = 100 
+        # tokenizer = Tokenizer(num_words=max_words)
+        # tokenizer.fit_on_texts(X_train)
+
+        # input_sequence = tokenizer.texts_to_sequences([preprocessed_text])
+        # input_padded = pad_sequences(input_sequence, maxlen=max_sequence_length)
+        # print(input_padded)
+
+        # predicted_probabilities = model.predict(input_padded)
+        # predicted_class = np.argmax(predicted_probabilities, axis=1)[0]
+        # output_label = label_encoder.inverse_transform([predicted_class])[0]
 
 
         res_precaution=df_prec.loc[df_prec['Disease']==output_label]
