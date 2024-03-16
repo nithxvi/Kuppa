@@ -126,7 +126,6 @@ def Deploy_9(request):
         predicted_class = np.argmax(predicted_probabilities, axis=1)[0]
         output_label = label_encoder.inverse_transform([predicted_class])[0]
 
-
         res_precaution=df_prec.loc[df_prec['Disease']==output_label]
         precautions = res_precaution[['Precaution_1', 'Precaution_2', 'Precaution_3', 'Precaution_4']]
         precautions.dropna()
