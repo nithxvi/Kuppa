@@ -13,3 +13,10 @@ for (let i = 0; i < diseasePrecaution.length; i++) {
         div.appendChild(res)
     }
 }
+
+const hide_func = () => {
+    const hide_span = document.getElementsById('d-none');
+    for (let i = 0; i < hide_span.length; i++) {
+        hide_span[i].style.display = "block !important";
+    }
+}

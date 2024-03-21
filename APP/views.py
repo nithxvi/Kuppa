@@ -43,7 +43,7 @@ def Login_3(request):
 
         if user is not None:
             login(request, user)
-            return redirect('Home_4')
+            return redirect('Deploy_9')
         else:
             messages.info(request, 'Username OR Password incorrect')
 
@@ -126,35 +126,6 @@ def Deploy_9(request):
         predicted_class_idx = torch.argmax(outputs.logits, dim=1).item()
 
         output_label = reverse_label_mapping[predicted_class_idx]
-
-        
-        
-        
-        ## The BOOB Alan WAY
-        # label_encoder = LabelEncoder()
-        # df['label'] = label_encoder.fit_transform(df['label'])
-        # num_classes = len(label_encoder.classes_)
-
-        # X = df['combined_symptoms']
-        # y = df['label']
-
-        # y = to_categorical(y, num_classes=num_classes)
-
-        # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-        # max_words = 10000  
-        # max_sequence_length = 100 
-        # tokenizer = Tokenizer(num_words=max_words)
-        # tokenizer.fit_on_texts(X_train)
-
-        # input_sequence = tokenizer.texts_to_sequences([preprocessed_text])
-        # input_padded = pad_sequences(input_sequence, maxlen=max_sequence_length)
-        # print(input_padded)
-
-        # predicted_probabilities = model.predict(input_padded)
-        # predicted_class = np.argmax(predicted_probabilities, axis=1)[0]
-        # output_label = label_encoder.inverse_transform([predicted_class])[0]
-
 
         res_precaution=df_prec.loc[df_prec['Disease']==output_label]
         precautions = res_precaution[['Precaution_1', 'Precaution_2', 'Precaution_3', 'Precaution_4']]

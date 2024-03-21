@@ -97,3 +97,7 @@ text-align: left;
 margin-left: 35%;
 color: #8e8f91
 }
+
+#hide{
+  display: none !important;
+}
