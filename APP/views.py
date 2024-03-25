@@ -17,10 +17,10 @@ from sklearn.model_selection import train_test_split
 from transformers import BertTokenizer, BertForSequenceClassification
 import torch
 
-def Landing_1(request):
-    return render(request, '1_Landing.html')
+def Landing(request):
+    return render(request, 'Home.html')
 
-def Register_2(request):
+def Register(request):
     form = UserRegisterForm()
     if request.method =='POST':
         form = UserRegisterForm(request.POST)
@@ -31,10 +31,10 @@ def Register_2(request):
             return redirect('Login_3')
 
     context = {'form':form}
-    return render(request, '2_Register.html', context)
+    return render(request, 'Register.html', context)
 
 
-def Login_3(request):
+def Login(request):
     if request.method =='POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -48,54 +48,18 @@ def Login_3(request):
             messages.info(request, 'Username OR Password incorrect')
 
     context = {}
-    return render(request,'3_Login.html', context)
-
-def Home_4(request):
-    return render(request, '4_Home.html')
-
-def Teamates_5(request):
-    return render(request,'5_Teamates.html')
-
-def Domain_Result_6(request):
-    return render(request,'6_Domain_Result.html')
-
-def Problem_Statement_7(request):
-    return render(request,'7_Problem_Statement.html')
-    
-
-def Per_Info_8(request):
-    if request.method == 'POST':
-        fieldss = ['firstname','lastname','age','address','phone','city','state','country']
-        form = UserPersonalForm(request.POST)
-        if form.is_valid():
-            print('Saving data in Form')
-            form.save()
-        return render(request, '4_Home.html', {'form':form})
-    else:
-        print('Else working')
-        form = UserPersonalForm(request.POST)
-        return render(request, '8_Per_Info.html', {'form':form})
+    return render(request,'Login.html', context)
     
 # model = tensorflow.keras.models.load_model('APP\LSTM.h5')
-dataset1 = "APP\mod_dataset.csv"
-dataset2="APP\symptom_precaution.csv"
-dataset3="APP\symptom_Description.csv"
+dataset1 = "APP\DataSets\DataSet.csv"
+dataset2="APP\DataSets\symptom_precaution.csv"
+dataset3="APP\DataSets\symptom_Description.csv"
 
-def Deploy_9(request): 
+def prompt_page(request): 
     if request.method == "POST":
         int_features = [x for x in request.POST.values()]
         input_text2 = int_features[1:]
         print(input_text2)
-
-        # if isinstance(input_text2[0], str):
-        #     result = input_text2[0]
-        # else:
-        #     result = None
-
-        # print(result)
-
-        # preprocessed_text = result.lower()
-
         df = pd.read_csv(dataset1)
         df_prec= pd.read_csv(dataset2)
         df_prec.fillna("",inplace=True)
@@ -106,7 +70,6 @@ def Deploy_9(request):
         ##The BERT WAY
         tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         
-
         unique_labels = df['label'].unique()
         sorted_unique_labels = sorted(unique_labels)
 
@@ -140,15 +103,8 @@ def Deploy_9(request):
 
         print("Predicted Label:", output_label)
         
-        return render(request, '9_Deploy.html', {"prediction_text":f"The Disease you might have under such conditions is {output_label}",
+        return render(request, 'Deploy.html', {"prediction_text":f"The Disease you might have under such conditions is {output_label}",
                                                  "disease_precaution":disease_precaution, "disease_description":disease_description})
     else:
-        return render (request, '9_Deploy.html')
+        return render (request, 'Deploy.html')
    
-def Per_Database_10(request):
-    models = UserPersonalModel.objects.all()
-    return render(request, '10_Per_Database.html', {'models':models})
-
-def Logout(request):
-    logout(request)
-    return redirect('Landing_1')
