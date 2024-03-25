@@ -32,7 +32,7 @@
 
   <main class="px-2">
     <h1> Disease Prediction Through Symptom Analysis</h1>
-    <form class="form-group" action="{% url 'Deploy_9' %}" method="POST">
+    <form class="form-group" action="{% url 'Deploy' %}" method="POST">
         {% csrf_token %}
         <textarea name="message"placeholder="Enter your prompt" ></textarea>
         <div class="btn-div">
